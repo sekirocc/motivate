@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:notebook/notebooks_model.dart';
+import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 
 void main() async {
@@ -91,20 +93,13 @@ class _MyHomePageState extends State<MyHomePage> {
           height: 400,
           child: Container(
             color: Colors.green,
-            child: ListView(
-              children: const [
-                Text("notebookListPanel"),
-                Text("notebookListPanel"),
-                Text("notebookListPanel"),
-                Text("notebookListPanel"),
-                Text("notebookListPanel"),
-                Text("notebookListPanel"),
-                Text("notebookListPanel"),
-                Text("notebookListPanel"),
-                Text("notebookListPanel"),
-                Text("notebookListPanel"),
-                Text("notebookListPanel"),
-              ],
+            child: Consumer<NotebooksModel>(
+              builder: (context, notebooksModel, child) {
+                return ListView(
+                  children:
+                      notebooksModel.items.map((e) => Text(e.name)).toList(),
+                );
+              },
             ),
           ),
         ),
@@ -113,15 +108,19 @@ class _MyHomePageState extends State<MyHomePage> {
           height: 400,
           child: Container(
             color: Colors.yellow,
-            child: ListView(
-              children: const [
-                Text("noteListPanel"),
-                Text("noteListPanel"),
-                Text("noteListPanel"),
-                Text("noteListPanel"),
-                Text("noteListPanel"),
-                Text("noteListPanel"),
-              ],
+            child: Consumer<NotesModel>(
+              builder: (context, notesModel, child) {
+                return ListView(
+                  children: const [
+                    Text("noteListPanel"),
+                    Text("noteListPanel"),
+                    Text("noteListPanel"),
+                    Text("noteListPanel"),
+                    Text("noteListPanel"),
+                    Text("noteListPanel"),
+                  ],
+                );
+              },
             ),
           ),
         ),
@@ -147,12 +146,21 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: panels,
-    );
+        appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Text(widget.title),
+        ),
+        body: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (context) => NotebooksModel(),
+            ),
+            ChangeNotifierProvider(
+              create: (context) => NotesModel(),
+            ),
+          ],
+          child: panels,
+        ));
   }
 }
