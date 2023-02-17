@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class Notebook {
   String name = "";
@@ -10,11 +9,7 @@ class Notebook {
 }
 
 class NotebooksModel extends ChangeNotifier {
-  final List<Notebook> _notebooks = [
-    Notebook("book1"),
-    Notebook("book2"),
-    Notebook("book3")
-  ];
+  final List<Notebook> _notebooks = [];
   int _selected = -1;
 
   int get selected => _selected;
@@ -32,7 +27,14 @@ class NotebooksModel extends ChangeNotifier {
   }
 }
 
-class Note {}
+class Note {
+  String title = "";
+  String created_at = "";
+
+  Note(String t) {
+    title = t;
+  }
+}
 
 class NotesModel extends ChangeNotifier {
   final List<Note> _notes = [];
@@ -40,6 +42,8 @@ class NotesModel extends ChangeNotifier {
 
   int get selected => _selected;
   int get count => _notes.length;
+
+  List<Note> get items => _notes;
 
   void add(Note item) {
     _notes.add(item);
