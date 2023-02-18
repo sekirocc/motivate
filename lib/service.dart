@@ -1,4 +1,4 @@
-import 'db.dart';
+import 'model.dart';
 
 class Service {
   late String _dbPath;

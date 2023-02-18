@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:notebook/db.dart';
 import 'package:provider/provider.dart';
+
+import 'model.dart';
 
 class MyPanels extends StatefulWidget {
   const MyPanels({

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notebook/view.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'db.dart';
+import 'model.dart';
 import 'service.dart';
 
 void main() async {
