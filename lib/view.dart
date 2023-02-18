@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'model.dart';
 
 class MyPanels extends StatefulWidget {
@@ -23,6 +24,8 @@ class _MyPanelsState extends State<MyPanels> {
     super.initState();
     dbModel = widget.initDB;
   }
+
+  quill.QuillController _controller = quill.QuillController.basic();
 
   @override
   Widget build(BuildContext context) {
@@ -92,11 +95,19 @@ class _MyPanelsState extends State<MyPanels> {
                 ),
               ),
               Expanded(
-                child: Container(
-                  color: const Color.fromARGB(255, 184, 163, 163),
-                  child: ListView(
-                    children: const [Text("mainPanel")],
-                  ),
+                child: Column(
+                  children: [
+                    quill.QuillToolbar.basic(controller: _controller),
+                    Expanded(
+                      child: Container(
+                        color: const Color.fromARGB(255, 184, 163, 163),
+                        child: quill.QuillEditor.basic(
+                          controller: _controller,
+                          readOnly: false, // true for view only mode
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
