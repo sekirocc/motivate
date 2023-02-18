@@ -8,9 +8,9 @@ class Notebook {
   }
 }
 
-class NotebooksModel extends ChangeNotifier {
+class NotebooksModel {
   final List<Notebook> _notebooks = [];
-  int _selected = -1;
+  int _selected = 0;
 
   int get selected => _selected;
   int get count => _notebooks.length;
@@ -19,11 +19,14 @@ class NotebooksModel extends ChangeNotifier {
 
   void add(Notebook item) {
     _notebooks.add(item);
-    notifyListeners();
   }
 
   void select(int index) {
     _selected = index;
+  }
+
+  Notebook get(int index) {
+    return _notebooks[index];
   }
 }
 
@@ -36,9 +39,9 @@ class Note {
   }
 }
 
-class NotesModel extends ChangeNotifier {
+class NotesModel {
   final List<Note> _notes = [];
-  int _selected = -1;
+  int _selected = 0;
 
   int get selected => _selected;
   int get count => _notes.length;
@@ -47,10 +50,13 @@ class NotesModel extends ChangeNotifier {
 
   void add(Note item) {
     _notes.add(item);
-    notifyListeners();
   }
 
   void select(int index) {
     _selected = index;
+  }
+
+  Note get(int index) {
+    return _notes[index];
   }
 }

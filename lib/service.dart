@@ -7,10 +7,10 @@ class Service {
     _dbPath = dbPath;
   }
 
-  Future<NotebookDB> fetchNotebookData() async {
+  Future<NotebookDBModel> fetchNotebookData() async {
     print(_dbPath);
 
-    await Future.delayed(const Duration(seconds: 4));
+    await Future.delayed(const Duration(seconds: 1));
 
     // read fs
 
@@ -20,6 +20,8 @@ class Service {
       "vim-note1": "vim-note1-content",
       "vim-note2": "vim-note2-content",
       "vim-note3": "vim-note3-content",
+      "vim-note4": "vim-note4-content",
+      "vim-note5": "vim-note5-content",
     };
 
     data["git"] = {
@@ -30,8 +32,20 @@ class Service {
       "git-note5": "git-note5-content",
       "git-note6": "git-note6-content",
       "git-note7": "git-note7-content",
+      "git-note8": "git-note7-content",
+      "git-note9": "git-note7-content",
+      "git-note10": "git-note7-content",
+      "git-note11": "git-note7-content",
+      "git-note12": "git-note7-content",
+      "git-note13": "git-note7-content",
+      "git-note14": "git-note7-content",
     };
 
-    return NotebookDB(data);
+    data["emacs"] = {
+      "emacs-note1": "emacs-note1-content",
+      "emacs-note2": "emacs-note2-content",
+    };
+
+    return NotebookDBModel(data);
   }
 }

@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   final Service svc = Service("");
-  late Future<NotebookDB> futureNotebookData;
+  late Future<NotebookDBModel> futureNotebookData;
   @override
   void initState() {
     super.initState();
@@ -78,11 +78,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      body: FutureBuilder<NotebookDB>(
+      body: FutureBuilder<NotebookDBModel>(
         future: futureNotebookData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return MyPanels(db: snapshot.data!);
+            return MyPanels(
+              initDB: snapshot.data!,
+            );
           }
           return const Center(child: CircularProgressIndicator());
         },
