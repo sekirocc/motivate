@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'editor.dart';
 import 'model.dart';
 
 class MyPanels extends StatefulWidget {
@@ -32,8 +32,6 @@ class _MyPanelsState extends State<MyPanels> {
     panel2Visible = true;
     panel3Visible = true;
   }
-
-  quill.QuillController _controller = quill.QuillController.basic();
 
   void changePanelsVisibility(int v) {
     bool p1Visible;
@@ -153,23 +151,10 @@ class _MyPanelsState extends State<MyPanels> {
                             ),
                           ),
                     Expanded(
-                      child: Column(
-                        children: [
-                          quill.QuillToolbar.basic(controller: _controller),
-                          Expanded(
-                            child: Container(
-                              color: const Color.fromARGB(255, 184, 163, 163),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: quill.QuillEditor.basic(
-                                  controller: _controller,
-                                  readOnly: false, // true for view only mode
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: Consumer<NotebookDBModel>(
+                          builder: (context, model, child) {
+                        return Editor(note: model.note);
+                      }),
                     ),
                   ],
                 ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class NotebookDBModel extends ChangeNotifier {
   late Notebooks _notebooksModel;
   late Notes _notesModel;
+  Note _noteModel = Note("", "");
 
   late Map<String, Map<String, String>> _data;
 
@@ -19,6 +20,7 @@ class NotebookDBModel extends ChangeNotifier {
 
   Notebooks get notebooks => _notebooksModel;
   Notes get notes => _notesModel;
+  Note get note => _noteModel;
 
   void selectNotebook(int index) {
     rebuildModels(index, 0);
@@ -42,11 +44,16 @@ class NotebookDBModel extends ChangeNotifier {
     }
 
     if (notebookKeys.isNotEmpty && selectedNotebook >= 0) {
-      List<String> noteKeys =
-          _data[notebookKeys[selectedNotebook]]!.keys.toList();
+      var notebookKey = notebookKeys[selectedNotebook];
+      var notes = _data[notebookKey]!;
+      List<String> noteKeys = notes.keys.toList();
       for (int i = 0; i < noteKeys.length; i++) {
-        var element = noteKeys[i];
-        model2.add(Note(element));
+        var noteKey = noteKeys[i];
+        var note = Note(noteKey, notes[noteKey]!);
+        if (i == selectedNote) {
+          _noteModel = note;
+        }
+        model2.add(note);
       }
     }
 
@@ -82,10 +89,12 @@ class Notebooks {
 
 class Note {
   String title = "";
+  String content = "";
   String created_at = "";
 
-  Note(String t) {
+  Note(String t, String c) {
     title = t;
+    content = c;
   }
 }
 

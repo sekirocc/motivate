@@ -1,3 +1,9 @@
+import 'dart:io';
+
+import 'package:file_selector/file_selector.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
+
 import 'model.dart';
 
 class Service {
@@ -10,46 +16,39 @@ class Service {
   Future<NotebookDBModel> fetchNotebookData() async {
     print(_dbPath);
 
-    await Future.delayed(const Duration(seconds: 1));
+    // await Future.delayed(const Duration(seconds: 1));
 
     // read fs
-
     Map<String, Map<String, String>> data = {};
 
-    data["vim"] = {
-      "vim-note1": "vim-note1-content",
-      "vim-note2": "vim-note2-content",
-      "vim-note3": "vim-note3-content",
-      "vim-note4": "vim-note4-content",
-      "vim-note5": "vim-note5-content",
-    };
+    String selectedQuiverPath = "/Users/bytedance/Downloads/quiver_out";
+    // print("users select quiver dir: $selectedQuiverPath");
+    var notebookFolders =
+        await Directory(selectedQuiverPath).list(recursive: false).toList();
 
-    data["git"] = {
-      "git-note1": "git-note1-content",
-      "git-note2": "git-note2-content",
-      "git-note3": "git-note3-content",
-      "git-note4": "git-note4-content",
-      "git-note5": "git-note5-content",
-      "git-note6": "git-note6-content",
-      "git-note7": "git-note7-content",
-      "git-note8": "git-note7-content",
-      "git-note9": "git-note7-content",
-      "git-note10": "git-note7-content",
-      "git-note11": "git-note7-content",
-      "git-note12": "git-note7-content",
-      "git-note13": "git-note7-content",
-      "git-note14": "git-note7-content",
-    };
+    for (var notebookFolder in notebookFolders) {
+      if (!isValidDir(notebookFolder)) continue;
+      // print("notebookFolder: $notebookFolder");
 
-    data["emacs"] = {
-      "emacs-note1": "emacs-note1-content",
-      "emacs-note2": "emacs-note2-content",
-    };
+      var noteDirs = await Directory(notebookFolder.path).list().toList();
+      Map<String, String> noteContents = {};
+      for (var noteFolder in noteDirs) {
+        if (!isValidDir(noteFolder)) continue;
+        // print("noteFolder: $noteFolder");
 
-    for (var i = 0; i < 100; i++) {
-      data["emacs $i"] = {};
+        var indexPage = p.join(noteFolder.path, "index.html");
+        String content = await File(indexPage).readAsString();
+        noteContents[p.basename(noteFolder.path)] = content;
+      }
+
+      data[p.basename(notebookFolder.path)] = noteContents;
     }
 
     return NotebookDBModel(data);
+  }
+
+  bool isValidDir(FileSystemEntity folder) {
+    return !p.basename(folder.path).startsWith(".") &&
+        folder.statSync().type == FileSystemEntityType.directory;
   }
 }
