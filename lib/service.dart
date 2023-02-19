@@ -46,6 +46,10 @@ class Service {
       "emacs-note2": "emacs-note2-content",
     };
 
+    for (var i = 0; i < 100; i++) {
+      data["emacs $i"] = {};
+    }
+
     return NotebookDBModel(data);
   }
 }
